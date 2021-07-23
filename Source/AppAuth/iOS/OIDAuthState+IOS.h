@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "OIDAuthState.h"
+#import <AppAuthCore/OIDAuthState.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
