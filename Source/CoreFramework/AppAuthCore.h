@@ -48,6 +48,7 @@ FOUNDATION_EXPORT const unsigned char AppAuthCoreVersionString[];
 #import <AppAuthCore/OIDTokenResponse.h>
 #import <AppAuthCore/OIDTokenUtilities.h>
 #import <AppAuthCore/OIDURLSessionProvider.h>
+#import <AppAuthCore/OIDURLQueryComponent.h>
 #import <AppAuthCore/OIDEndSessionRequest.h>
 #import <AppAuthCore/OIDEndSessionResponse.h>
 

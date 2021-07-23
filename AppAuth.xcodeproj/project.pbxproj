@@ -455,6 +455,7 @@
 		34D5EC451E6D1AD900814354 /* OIDSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5EC441E6D1AD900814354 /* OIDSwiftTests.swift */; };
 		34FEA6AE1DB6E083005C9212 /* OIDLoopbackHTTPServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 34FEA6AC1DB6E083005C9212 /* OIDLoopbackHTTPServer.h */; };
 		34FEA6AF1DB6E083005C9212 /* OIDLoopbackHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FEA6AD1DB6E083005C9212 /* OIDLoopbackHTTPServer.m */; };
+		3744CD8626AB486500C7FDCD /* OIDURLQueryComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 341741D71C5D8243000EF209 /* OIDURLQueryComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55A094CF20DFBB10000045D1 /* OIDURLSessionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 039697441FA8258D003D1FB2 /* OIDURLSessionProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55A094D020DFBB11000045D1 /* OIDURLSessionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 039697441FA8258D003D1FB2 /* OIDURLSessionProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55A094D120DFBB12000045D1 /* OIDURLSessionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 039697441FA8258D003D1FB2 /* OIDURLSessionProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1118,6 +1119,7 @@
 				342F42AC2177B1FC00574F24 /* OIDTokenResponse.h in Headers */,
 				06C19E9A22B4749900C19CE1 /* OIDEndSessionResponse.h in Headers */,
 				342F42AD2177B1FC00574F24 /* OIDServiceDiscovery.h in Headers */,
+				3744CD8626AB486500C7FDCD /* OIDURLQueryComponent.h in Headers */,
 				342F42AE2177B1FC00574F24 /* OIDGrantTypes.h in Headers */,
 				342F42AF2177B1FC00574F24 /* OIDURLSessionProvider.h in Headers */,
 				342F42B12177B1FC00574F24 /* OIDRegistrationResponse.h in Headers */,
