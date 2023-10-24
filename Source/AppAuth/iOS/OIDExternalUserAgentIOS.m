@@ -18,7 +18,7 @@
 
 #import <TargetConditionals.h>
 
-#if TARGET_OS_IOS || TARGET_OS_MACCATALYST
+#if TARGET_OS_IOS || TARGET_OS_VISION || TARGET_OS_MACCATALYST
 
 #import "OIDExternalUserAgentIOS.h"
 
@@ -33,12 +33,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#if TARGET_OS_VISION
+@interface OIDExternalUserAgentIOS ()<ASWebAuthenticationPresentationContextProviding>
+@end
+#else
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
 @interface OIDExternalUserAgentIOS ()<SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding>
 @end
 #else
 @interface OIDExternalUserAgentIOS ()<SFSafariViewControllerDelegate>
 @end
+#endif
 #endif
 
 @implementation OIDExternalUserAgentIOS {
@@ -48,8 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
   __weak id<OIDExternalUserAgentSession> _session;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
+#if !TARGET_OS_VISION
   __weak SFSafariViewController *_safariVC;
   SFAuthenticationSession *_authenticationVC;
+#endif
   ASWebAuthenticationSession *_webAuthenticationVC;
 #pragma clang diagnostic pop
 }
@@ -122,6 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
       openedUserAgent = [authenticationVC start];
     }
   }
+#if !TARGET_OS_VISION
   // iOS 11, use SFAuthenticationSession
   if (@available(iOS 11.0, *)) {
     // SFAuthenticationSession doesn't work with guided access (rdar://40809553)
@@ -167,6 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
   if (!openedUserAgent){
     openedUserAgent = [[UIApplication sharedApplication] openURL:requestURL];
   }
+#endif
 
   if (!openedUserAgent) {
     [self cleanUp];
@@ -187,13 +196,23 @@ NS_ASSUME_NONNULL_BEGIN
   
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
+#if !TARGET_OS_VISION
   SFSafariViewController *safariVC = _safariVC;
   SFAuthenticationSession *authenticationVC = _authenticationVC;
   ASWebAuthenticationSession *webAuthenticationVC = _webAuthenticationVC;
+#endif
 #pragma clang diagnostic pop
   
   [self cleanUp];
-  
+
+#if TARGET_OS_VISION
+    if (_webAuthenticationVC) {
+        // dismiss the ASWebAuthenticationSession
+        [_webAuthenticationVC cancel];
+    } else if (completion != nil) {
+        completion();
+    }
+#else
   if (webAuthenticationVC) {
     // dismiss the ASWebAuthenticationSession
     [webAuthenticationVC cancel];
@@ -208,19 +227,24 @@ NS_ASSUME_NONNULL_BEGIN
   } else {
     if (completion) completion();
   }
+#endif
 }
 
 - (void)cleanUp {
+#if !TARGET_OS_VISION
   // The weak references to |_safariVC| and |_session| are set to nil to avoid accidentally using
   // them while not in an authorization flow.
   _safariVC = nil;
   _authenticationVC = nil;
+#endif
   _webAuthenticationVC = nil;
   _session = nil;
   _externalUserAgentFlowInProgress = NO;
 }
 
 #pragma mark - SFSafariViewControllerDelegate
+
+#if !TARGET_OS_VISION
 
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller NS_AVAILABLE_IOS(9.0) {
   if (controller != _safariVC) {
@@ -239,6 +263,8 @@ NS_ASSUME_NONNULL_BEGIN
   [session failExternalUserAgentFlowWithError:error];
 }
 
+#endif
+
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
 #pragma mark - ASWebAuthenticationPresentationContextProviding
 
@@ -253,4 +279,4 @@ NS_ASSUME_NONNULL_END
 
 #endif // !TARGET_OS_MACCATALYST
 
-#endif // TARGET_OS_IOS || TARGET_OS_MACCATALYST
+#endif // TARGET_OS_IOS || TARGET_OS_VISION || TARGET_OS_MACCATALYST
