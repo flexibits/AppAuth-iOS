@@ -289,8 +289,8 @@ static NSString *const kAdditionalParametersKey = @"additionalParameters";
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", basicAuth];
     [httpHeaders setObject:authValue forKey:@"Authorization"];
     // Workaround for server-side problems with Google as of 2018-04-16 (https://github.com/openid/AppAuth-iOS/issues/226)
-    // annoys Zoom, but required for Todoist
-    if( [[tokenRequestURL host] isEqualToString:@"todoist.com"] || [[tokenRequestURL host] hasSuffix:@".todoist.com"] ) {
+    // annoys Zoom, but required for Todoist and Meetup
+    if ([[tokenRequestURL host] isEqualToString:@"todoist.com"] || [[tokenRequestURL host] hasSuffix:@".todoist.com"] || [[tokenRequestURL host] isEqualToString:@"meetup.com"] || [[tokenRequestURL host] hasSuffix:@".meetup.com"]) {
       [bodyParameters addParameter:kClientIDKey value:_clientID];
       [bodyParameters addParameter:kClientSecretKey value:_clientSecret];
     }
