@@ -58,14 +58,13 @@ static NSString *const kFormUrlEncodedAllowedCharacters =
   if (inputString == nil) {
     return nil;
   }
-  switch(inputString.length){
-    case 0:
-      return @"";
-    case 1 ... 8:
-      return @"[redacted]";
-    case 9:
-    default:
-      return [[inputString substringToIndex:6] stringByAppendingString:@"...[redacted]"];
+  NSUInteger length = inputString.length;
+  if (length == 0) {
+    return @"";
+  } else if (length >= 1 && length <= 8) {
+    return @"[redacted]";
+  } else {
+    return [[inputString substringToIndex:6] stringByAppendingString:@"...[redacted]"];
   }
 }
 
